@@ -8,15 +8,17 @@ use File::Basename;
 use FindBin qw($Bin);
 
 use Test2::Bundle::Extended 0.000060;
-use Data::Section 0.200006 -setup;        # Set up labeled DATA sections
-use File::Temp    qw( tempfile ); 
-use File::Slurper 0.009 qw( read_text write_text );
+use Data::Section           0.200006 -setup;        # Set up labeled DATA sections
+use File::Temp                       qw( tempfile ); 
+use File::Slurper           0.009    qw( read_text write_text );
 
 # Create input file (and give it a temp name)
 my $infile  = filename_for('input');
 
-my $count_nicks = File::Spec->catfile('bin', 'count_nicks.pl');
+# Get Count Nicks executable name
+my $count_nicks = File::Spec->catfile('bin', 'count_nicks');
 
+# Test using default values
 {
     my $outfile = "$infile.nick_site.counts";
     system("perl $Bin/../lib/Bio/IRCF/CountNicks.pm $infile");
@@ -34,6 +36,7 @@ my $count_nicks = File::Spec->catfile('bin', 'count_nicks.pl');
     unlink $second_outfile;
 }
 
+# Test using values opposite of default
 {
     my $outfile = "$infile.nick_site.counts";
     system("perl $Bin/../lib/Bio/IRCF/CountNicks.pm $infile 16 0");
@@ -41,28 +44,23 @@ my $count_nicks = File::Spec->catfile('bin', 'count_nicks.pl');
     my $expected = string_from('expected_swapped');
     is($result, $expected, 'nick sites correct for explicitly set forward and reverse values opposite of the default');
 
-    my $second_outfile = "$infile.nick_site.fr_secondstrand.counts";
     unlink $outfile;
+
+    # Clean up other results (that we didn't test)
+    my $second_outfile = "$infile.nick_site.fr_secondstrand.counts";
     unlink $second_outfile;
 }
 
+# Remove input test file
 unlink $infile;
 
 done_testing;
-
-sub sref_from {
-    my $section = shift;
-
-    #Scalar reference to the section text
-    return __PACKAGE__->section_data($section);
-}
-
 
 sub string_from {
     my $section = shift;
 
     #Get the scalar reference
-    my $sref = sref_from($section);
+    my $sref = __PACKAGE__->section_data($section);
 
     my $string = "$$sref";
 
@@ -71,19 +69,6 @@ sub string_from {
 
     #Return a string containing the entire section
     return $string;
-}
-
-sub assign_filename_for {
-    my $filename = shift;
-    my $section  = shift;
-
-    # Don't overwrite existing file
-    die "'$filename' already exists." if -e $filename;
-
-    my $content   = string_from($section);
-    write_text($filename, $content);
-
-    return;
 }
 
 sub filename_for {
@@ -109,12 +94,6 @@ sub temp_filename {
     return $basename;
 }
 
-sub delete_temp_file {
-    my $filename  = shift;
-    my $delete_ok = unlink $filename;
-    ok($delete_ok, "deleted temp file '$filename'");
-}
-
 sub convert_to_unix_newlines {
     my $string = shift;
 
@@ -122,6 +101,7 @@ sub convert_to_unix_newlines {
     return $string;
 }
 
+# Read in file and convert line endings to Unix line endings (helps tests pass)
 sub unix_read {
     my $filename = shift;
 
