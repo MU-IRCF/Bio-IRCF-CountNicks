@@ -4,26 +4,31 @@ use warnings;
 use autodie;
 
 use File::Spec;
+use File::Basename;
+use FindBin qw($Bin);
 
 use Test2::Bundle::Extended 0.000060;
 use Data::Section 0.200006 -setup;        # Set up labeled DATA sections
-use File::Temp    qw( tempfile );  #
-use File::Slurper 0.009 qw( read_text    );  # Read a file into a string
+use File::Temp    qw( tempfile ); 
+use File::Slurper 0.009 qw( read_text write_text );
 
+# Create input file (and give it a temp name)
 my $infile  = filename_for('input');
+
+my $count_nicks = File::Spec->catfile('bin', 'count_nicks.pl');
 
 {
     my $outfile = "$infile.nick_site.counts";
-    system(File::Spec->catfile('bin', 'count_nicks') .  " $infile");
-    my $result   = read_text $outfile;
+    system("perl $Bin/../lib/Bio/IRCF/CountNicks.pm $infile");
+    my $result   = unix_read($outfile);
     my $expected = string_from('expected');
-    is( $result, $expected, 'nick sites correctly tabulated' );
+    is($result, $expected, 'nick sites correctly tabulated' );
 
     my $second_outfile = "$infile.nick_site.fr_secondstrand.counts";
-    my $second_result = read_text $second_outfile;
+    my $second_result = unix_read($second_outfile);
     my $second_expected = string_from('expected_second');
 
-    is ( $second_result, $second_expected, 'nick sites for case of fr_secondstrand are correct');
+    is($second_result, $second_expected, 'nick sites for case of fr_secondstrand are correct');
 
     unlink $outfile;
     unlink $second_outfile;
@@ -31,13 +36,16 @@ my $infile  = filename_for('input');
 
 {
     my $outfile = "$infile.nick_site.counts";
-    system(File::Spec->catfile('bin', 'count_nicks') .  " $infile 16 0");
-    my $result   = read_text $outfile;
+    system("perl $Bin/../lib/Bio/IRCF/CountNicks.pm $infile 16 0");
+    my $result   = unix_read($outfile);
     my $expected = string_from('expected_swapped');
-    is( $result, $expected, 'nick sites correct for explicitly set forward and reverse values opposite of the default');
+    is($result, $expected, 'nick sites correct for explicitly set forward and reverse values opposite of the default');
 
+    my $second_outfile = "$infile.nick_site.fr_secondstrand.counts";
     unlink $outfile;
+    unlink $second_outfile;
 }
+
 unlink $infile;
 
 done_testing;
@@ -56,17 +64,13 @@ sub string_from {
     #Get the scalar reference
     my $sref = sref_from($section);
 
+    my $string = "$$sref";
+
+    # # Make all line endings like UNIX
+    # $string =~ s/\R/\n/g;
+
     #Return a string containing the entire section
-    return ${$sref};
-}
-
-sub fh_from {
-    my $section = shift;
-    my $sref    = sref_from($section);
-
-    #Create filehandle to the referenced scalar
-    open( my $fh, '<', $sref );
-    return $fh;
+    return $string;
 }
 
 sub assign_filename_for {
@@ -76,32 +80,56 @@ sub assign_filename_for {
     # Don't overwrite existing file
     die "'$filename' already exists." if -e $filename;
 
-    my $string   = string_from($section);
-    open(my $fh, '>', $filename);
-    print {$fh} $string;
-    close $fh;
+    my $content   = string_from($section);
+    write_text($filename, $content);
+
     return;
 }
 
 sub filename_for {
-    my $section           = shift;
-    my ( $fh, $filename ) = tempfile();
-    my $string            = string_from($section);
-    print {$fh} $string;
-    close $fh;
+    my $section   = shift;
+    my $filename  = temp_filename();
+    my $content   = string_from($section);
+
+    write_text($filename, $content);
     return $filename;
 }
 
 sub temp_filename {
+
+    # use tempfile function just to get a random filename
     my ($fh, $filename) = tempfile();
     close $fh;
-    return $filename;
+    my $basename = basename($filename);
+
+    # Delete temp file
+    unlink $filename;
+
+    # Return random filename
+    return $basename;
 }
 
 sub delete_temp_file {
     my $filename  = shift;
     my $delete_ok = unlink $filename;
     ok($delete_ok, "deleted temp file '$filename'");
+}
+
+sub convert_to_unix_newlines {
+    my $string = shift;
+
+    $string =~ s/\R/\n/g;
+    return $string;
+}
+
+sub unix_read {
+    my $filename = shift;
+
+    my $content = read_text($filename);
+
+    my $unix_style_content = convert_to_unix_newlines($content); 
+
+    return $unix_style_content;
 }
 
 

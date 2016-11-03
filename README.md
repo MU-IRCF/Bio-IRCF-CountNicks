@@ -19,7 +19,7 @@ It is probably best to install App::cpanminus first:
 
 When it asks you configuration questions, just keep hitting ENTER. From now on, you can almost always use `cpanm` isntead of `cpan` for installing modules. If you have problems, see the [cpanm documentation](https://metacpan.org/pod/App::cpanminus).
 
-Then download the [latest CountNicks tarball](https://github.com/MU-IRCF/Bio-IRCF-CountNicks/raw/master/dists/Bio-IRCF-CountNicks-0.0015.tar.gz).
+Then download the [latest CountNicks tarball](https://github.com/MU-IRCF/Bio-IRCF-CountNicks/raw/master/dists/Bio-IRCF-CountNicks-0.0017.tar.gz).
 
 Then install it using cpanm:
 
