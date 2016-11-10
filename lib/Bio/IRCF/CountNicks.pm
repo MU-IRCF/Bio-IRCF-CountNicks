@@ -47,6 +47,9 @@ sub main
 
     while (my $line = readline $fh_sam)
     {
+        # Skip header lines
+        next if substr($line,0,1) eq '@';
+
         my ($flag, $ref_seq_name, $pos, $seq) = (split /\t/, $line)[1,2,3,9];
 
         $max_position = max($pos, $max_position);
