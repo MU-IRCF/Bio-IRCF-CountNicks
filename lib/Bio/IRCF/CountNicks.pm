@@ -30,8 +30,8 @@ sub main
     open(my $fh_sam, '<', $sam_file);
 
     # create output file handles
-    open(my $fh_out,        '>', "$sam_file.nick_site.counts");
-    open(my $fh_out_second, '>', "$sam_file.nick_site.fr_secondstrand.counts");
+    open(my $fh_out,        '>', "$sam_file.nick_site.counts.txt");
+    open(my $fh_out_second, '>', "$sam_file.nick_site.fr_secondstrand.counts.txt");
 
     # Print header
     print {$fh_out} "position\tforward\treverse\tfor_RPM\trev_RPM\n";

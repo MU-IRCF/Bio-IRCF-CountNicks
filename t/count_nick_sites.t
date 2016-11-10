@@ -20,13 +20,13 @@ my $count_nicks = File::Spec->catfile('bin', 'count_nicks');
 
 # Test using default values
 {
-    my $outfile = "$infile.nick_site.counts";
+    my $outfile = "$infile.nick_site.counts.txt";
     system("perl $Bin/../lib/Bio/IRCF/CountNicks.pm $infile");
     my $result   = unix_read($outfile);
     my $expected = string_from('expected');
     is($result, $expected, 'nick sites correctly tabulated' );
 
-    my $second_outfile = "$infile.nick_site.fr_secondstrand.counts";
+    my $second_outfile = "$infile.nick_site.fr_secondstrand.counts.txt";
     my $second_result = unix_read($second_outfile);
     my $second_expected = string_from('expected_second');
 
@@ -38,7 +38,7 @@ my $count_nicks = File::Spec->catfile('bin', 'count_nicks');
 
 # Test using values opposite of default
 {
-    my $outfile = "$infile.nick_site.counts";
+    my $outfile = "$infile.nick_site.counts.txt";
     system("perl $Bin/../lib/Bio/IRCF/CountNicks.pm $infile 16 0");
     my $result   = unix_read($outfile);
     my $expected = string_from('expected_swapped');
@@ -47,7 +47,7 @@ my $count_nicks = File::Spec->catfile('bin', 'count_nicks');
     unlink $outfile;
 
     # Clean up other results (that we didn't test)
-    my $second_outfile = "$infile.nick_site.fr_secondstrand.counts";
+    my $second_outfile = "$infile.nick_site.fr_secondstrand.counts.txt";
     unlink $second_outfile;
 }
 
