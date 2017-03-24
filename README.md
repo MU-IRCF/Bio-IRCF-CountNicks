@@ -19,11 +19,11 @@ It is probably best to install App::cpanminus first:
 
 When it asks you configuration questions, just keep hitting ENTER. From now on, you can almost always use `cpanm` isntead of `cpan` for installing modules. If you have problems, see the [cpanm documentation](https://metacpan.org/pod/App::cpanminus).
 
-Then download the [latest CountNicks tarball](https://github.com/MU-IRCF/Bio-IRCF-CountNicks/raw/master/dists/Bio-IRCF-CountNicks-0.0022.tar.gz).
+Then download the [latest CountNicks tarball](https://github.com/MU-IRCF/Bio-IRCF-CountNicks/raw/master/current_distribution/Bio-IRCF-CountNicks-0.0024.tar.gz).
 
 Then install it using cpanm:
 
-    cpanm Bio-IRCF-CountNicks-0.0022.tar.gz
+    cpanm Bio-IRCF-CountNicks-0.0024.tar.gz
 
 If you have any problems installing it, please contact the author directly or [file an issue](https://github.com/MU-IRCF/Bio-IRCF-CountNicks/issues/new).
 
@@ -60,9 +60,14 @@ Tests require
 
 # First-time Perl installation on Windows
 
-## Strawberry Perl
+## Strawberry Perl (MSI version)
 
 Strawberry Perl is a completely free distribution of Perl for Windows. To install it:
+
+- Download the recommend version from the home page (e.g. http://strawberryperl.com/download/5.24.1.1/strawberry-perl-5.24.1.1-64bit.msi).
+- After it finishes downloading, double click on it and follow the installation instructions that it gives you.
+
+## Strawberry Perl (if you cannot install the MSI)
 
 - Create a directory (something like C:\\Users\\username\\Strawberry).
 - Then download the latest "portable" version of [Strawberry Perl](http://strawberyperl.com).
@@ -72,3 +77,11 @@ Strawberry Perl is a completely free distribution of Perl for Windows. To instal
 ## ActiveState Perl
 
 [ActiveState Perl](http://www.activestate.com/activeperl/downloads) is another distribution of Perl for Windows.
+
+# POD ERRORS
+
+Hey! **The above document had some coding errors, which are explained below:**
+
+- Around line 88:
+
+    You forgot a '=back' before '=head2'

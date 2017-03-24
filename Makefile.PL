@@ -35,7 +35,7 @@ my %WriteMakefileArgs = (
     "FindBin" => 0,
     "Test2::Bundle::Extended" => "0.000060"
   },
-  "VERSION" => "0.0023",
+  "VERSION" => "0.0024",
   "test" => {
     "TESTS" => "t/*.t"
   }

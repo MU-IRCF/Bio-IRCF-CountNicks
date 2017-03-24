@@ -155,11 +155,11 @@ It is probably best to install App::cpanminus first:
 
 When it asks you configuration questions, just keep hitting ENTER. From now on, you can almost always use C<cpanm> isntead of C<cpan> for installing modules. If you have problems, see the L<cpanm documentation|https://metacpan.org/pod/App::cpanminus>.
 
-Then download the L<latest CountNicks tarball|https://github.com/MU-IRCF/Bio-IRCF-CountNicks/raw/master/dists/Bio-IRCF-CountNicks-0.0022.tar.gz>.
+Then download the L<latest CountNicks tarball|https://github.com/MU-IRCF/Bio-IRCF-CountNicks/raw/master/current_distribution/Bio-IRCF-CountNicks-0.0024.tar.gz>.
 
 Then install it using cpanm:
 
-    cpanm Bio-IRCF-CountNicks-0.0022.tar.gz
+    cpanm Bio-IRCF-CountNicks-0.0024.tar.gz
 
 If you have any problems installing it, please contact the author directly or L<file an issue|https://github.com/MU-IRCF/Bio-IRCF-CountNicks/issues/new>.
 
@@ -196,9 +196,21 @@ Tests require
 
 =head1 First-time Perl installation on Windows
 
-=head2 Strawberry Perl
+=head2 Strawberry Perl (MSI version)
 
 Strawberry Perl is a completely free distribution of Perl for Windows. To install it:
+
+=over 4
+
+=item * 
+
+Download the recommend version from the home page (e.g. http://strawberryperl.com/download/5.24.1.1/strawberry-perl-5.24.1.1-64bit.msi).
+
+=item *
+
+After it finishes downloading, double click on it and follow the installation instructions that it gives you.
+
+=head2 Strawberry Perl (if you cannot install the MSI)
 
 =over 4
 
