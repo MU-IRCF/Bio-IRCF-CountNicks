@@ -210,6 +210,8 @@ Download the recommend version from the home page (e.g. http://strawberryperl.co
 
 After it finishes downloading, double click on it and follow the installation instructions that it gives you.
 
+=back
+
 =head2 Strawberry Perl (if you cannot install the MSI)
 
 =over 4

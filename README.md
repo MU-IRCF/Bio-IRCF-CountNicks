@@ -77,11 +77,3 @@ Strawberry Perl is a completely free distribution of Perl for Windows. To instal
 ## ActiveState Perl
 
 [ActiveState Perl](http://www.activestate.com/activeperl/downloads) is another distribution of Perl for Windows.
-
-# POD ERRORS
-
-Hey! **The above document had some coding errors, which are explained below:**
-
-- Around line 88:
-
-    You forgot a '=back' before '=head2'
