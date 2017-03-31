@@ -19,7 +19,7 @@ my %module_build_args = (
     "Christopher Bottoms <molecules <at> cpan <dot> org>"
   ],
   "dist_name" => "Bio-IRCF-CountNicks",
-  "dist_version" => "0.0026",
+  "dist_version" => "0.0027",
   "license" => "perl",
   "module_name" => "Bio::IRCF::CountNicks",
   "recursive_test_files" => 1,
