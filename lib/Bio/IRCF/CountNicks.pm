@@ -32,6 +32,7 @@ sub main
     # create output file handles
     open(my $fh_out,        '>', "$sam_file.nick_site.counts.txt");
     open(my $fh_out_second, '>', "$sam_file.nick_site.fr_secondstrand.counts.txt");
+    open(my $fh_bad_flag,   '>', "$sam_file.bad_flag.sam");
 
     # Print header
     print {$fh_out} "position\tforward\treverse\tfor_RPM\trev_RPM\n";
@@ -81,7 +82,8 @@ sub main
         }
         else
         {
-            warn "Flag '$flag' not handled";
+            print {$fh_bad_flag} $line;
+            next;
         }
 
         $total_reads++;
@@ -125,7 +127,11 @@ sub main
 =pod
 
 
-=head1 Bio::IRCF::CountNicks
+=head1 NAME
+
+Bio::IRCF::CountNicks
+
+=head1 DESCRIPTION
 
 Tabulate single-strand nicks. This assumes that double stranded DNA (dsDNA) was nicked, that the strands were separated and sequenced. Strand-specific sequencing is assumed. We believe these are of the library type "fr-firststrand", but just in case, we also produce a "fr-secondstrand" version. Either way, the original sequence represented by the FASTQ reads represents the nucleotides just 3' from the nicked nucleotide, which was eliminated by the nicking.
 

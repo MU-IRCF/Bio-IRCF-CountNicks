@@ -1,4 +1,8 @@
-# Bio::IRCF::CountNicks
+# NAME
+
+Bio::IRCF::CountNicks
+
+# DESCRIPTION
 
 Tabulate single-strand nicks. This assumes that double stranded DNA (dsDNA) was nicked, that the strands were separated and sequenced. Strand-specific sequencing is assumed. We believe these are of the library type "fr-firststrand", but just in case, we also produce a "fr-secondstrand" version. Either way, the original sequence represented by the FASTQ reads represents the nucleotides just 3' from the nicked nucleotide, which was eliminated by the nicking.
 
