@@ -8,7 +8,6 @@ use File::Basename;
 use FindBin qw($Bin);
 
 use Test2::Bundle::Extended 0.000060;
-use Data::Section           0.200006 -setup;        # Set up labeled DATA sections
 use File::Temp                       qw( tempfile ); 
 use File::Slurper           0.009    qw( read_text write_text );
 
@@ -23,12 +22,12 @@ my $count_nicks = File::Spec->catfile('bin', 'count_nicks');
     my $outfile = "$infile.nick_site.counts.txt";
     system("perl $Bin/../lib/Bio/IRCF/CountNicks.pm $infile");
     my $result   = unix_read($outfile);
-    my $expected = string_from('expected');
+    my $expected = string_for('expected');
     is($result, $expected, 'nick sites correctly tabulated' );
 
     my $second_outfile = "$infile.nick_site.fr_secondstrand.counts.txt";
     my $second_result = unix_read($second_outfile);
-    my $second_expected = string_from('expected_second');
+    my $second_expected = string_for('expected_second');
 
     is($second_result, $second_expected, 'nick sites for case of fr_secondstrand are correct');
 
@@ -41,7 +40,7 @@ my $count_nicks = File::Spec->catfile('bin', 'count_nicks');
     my $outfile = "$infile.nick_site.counts.txt";
     system("perl $Bin/../lib/Bio/IRCF/CountNicks.pm $infile 16 0");
     my $result   = unix_read($outfile);
-    my $expected = string_from('expected_swapped');
+    my $expected = string_for('expected_swapped');
     is($result, $expected, 'nick sites correct for explicitly set forward and reverse values opposite of the default');
 
     unlink $outfile;
@@ -56,25 +55,10 @@ unlink $infile;
 
 done_testing;
 
-sub string_from {
-    my $section = shift;
-
-    #Get the scalar reference
-    my $sref = __PACKAGE__->section_data($section);
-
-    my $string = "$$sref";
-
-    # # Make all line endings like UNIX
-    # $string =~ s/\R/\n/g;
-
-    #Return a string containing the entire section
-    return $string;
-}
-
 sub filename_for {
     my $section   = shift;
     my $filename  = temp_filename();
-    my $content   = string_from($section);
+    my $content   = string_for($section);
 
     write_text($filename, $content);
     return $filename;
@@ -119,8 +103,11 @@ sub unix_read {
 # Each line from each section automatically ends with a newline character
 #------------------------------------------------------------------------
 
-__DATA__
-__[ input ]__
+sub string_for {
+    my $section = shift;
+
+    my %string_for = (
+        input => <<'END',
 @HD     VN:1.0  SO:unsorted
 @SQ     SN:HPV16-pUC18_start_mid_pUC18  LN:10589
 @PG     ID:bowtie2      PN:bowtie2      VN:2.2.5        CL:"bowtie2-align-s --wrapper basic-0 --threads 20 -x index/refseq --passthrough -U set1.fq"
@@ -136,21 +123,30 @@ read_8	0	gi|4927719|gb|AF125673.1|	7855	50	50M	*	0	0	CAAACCGTTTTGGGTTACACATTTACA
 read_9	0	gi|4927719|gb|AF125673.1|	7855	50	50M	*	0	0	CAAACCGTTTTGGGTTACACATTTACAAGCAACTTATATAATAATACTAA	DDDDDIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIHIIHHIIIIIIII	AS:i:0	XN:i:0	XM:i:0	XO:i:0	XG:i:0	NM:i:0	MD:Z:50	YT:Z:UU	NH:i:1
 read_10	16	gi|4927719|gb|AF125673.1|	7805	50	50M	*	0	0	CAAACCGTTTTGGGTTACACATTTACAAGCAACTTATATAATAATACTAA	DDDDDIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIHIIHHIIIIIIII	AS:i:0	XN:i:0	XM:i:0	XO:i:0	XG:i:0	NM:i:0	MD:Z:50	YT:Z:UU	NH:i:1
 read_11	0	gi|4927719|gb|AF125673.1|	7855	50	50M	*	0	0	CAAACCGTTTTGGGTTACACATTTACAAGCAACTTATATAATAATACTAA	DDDDDIIHIIIIIIHIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII	AS:i:0	XN:i:0	XM:i:0	XO:i:0	XG:i:0	NM:i:0	MD:Z:50	YT:Z:UU	NH:i:1
-__[ expected ]__
+END
+
+        expected => <<'END',
 position	forward	reverse	for_RPM	rev_RPM
 7804	0	0	0	0
 7854	9	0	750000	0
 7855	0	1	0	83333
 7905	0	2	0	166666
-__[ expected_second ]__
+END
+        expected_second => <<'END',
 position_fr_secondstrand	forward	reverse	for_RPM	rev_RPM
 7804	1	0	83333	0
 7854	2	0	166666	0
 7855	0	0	0	0
 7905	0	9	0	750000
-__[ expected_swapped ]__
+END
+        expected_swapped => <<'END',
 position	forward	reverse	for_RPM	rev_RPM
 7804	1	0	83333	0
 7854	2	0	166666	0
 7855	0	0	0	0
 7905	0	9	0	750000
+END
+    );
+
+    return $string_for{$section}; 
+}

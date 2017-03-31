@@ -27,7 +27,6 @@ my %WriteMakefileArgs = (
     "warnings" => 0
   },
   "TEST_REQUIRES" => {
-    "Data::Section" => "0.200006",
     "File::Basename" => 0,
     "File::Slurper" => "0.009",
     "File::Spec" => 0,
@@ -35,7 +34,7 @@ my %WriteMakefileArgs = (
     "FindBin" => 0,
     "Test2::Bundle::Extended" => "0.000060"
   },
-  "VERSION" => "0.0024",
+  "VERSION" => "0.0025",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -43,7 +42,6 @@ my %WriteMakefileArgs = (
 
 
 my %FallbackPrereqs = (
-  "Data::Section" => "0.200006",
   "File::Basename" => 0,
   "File::Slurper" => "0.009",
   "File::Spec" => 0,
