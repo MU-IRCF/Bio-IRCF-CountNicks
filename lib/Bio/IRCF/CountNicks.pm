@@ -200,6 +200,17 @@ Tests require
     Data::Section
     File::Slurper
 
+=head1 First-time Perl installation on Ubuntu
+
+(For those who want to use Ubuntu on Windows, open a command prompt and then type "bash". To open a command prompt, type `cmd` in the Cortana search box and hit  and hit the `Enter` key.)
+
+From your bash prompt, type the following commands (not including the comments which start with #):
+
+    sudo apt-get install perl                 # install basic Perl dependencies.
+    sudo apt-get install libperl-dev          # install additional Perl dependencies.
+    sudo apt-get install perl-doc             # install Perl documentation
+    sudo apt-get install libmodule-build-perl # install yet more additional Perl dependencies
+
 =head1 First-time Perl installation on Windows
 
 =head2 Strawberry Perl (MSI version)
